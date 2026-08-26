@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张嘉阳 · 个人作品集</title>
+<meta name="description" content="张嘉阳 — 游戏日语本地化 · 游戏文案策划 · TRPG 规则设计">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ Design Tokens(严格来自画布设计稿)============ */
+:root {
+  /* 背景渐变 */
+  --bg-top: #F0F7FF;      /* r.94 g.97 b1.00 */
+  --bg-mid: #D6EAFB;      /* 0.55 停靠点 */
+  --bg-bot: #BBD9F5;      /* 1.0 停靠点 */
+
+  /* 品牌色 */
+  --ink: #1A2332;         /* 主文 */
+  --ink-2: #5B6B7E;       /* 次文 */
+  --muted: #8B9BAE;       /* 弱文 */
+  --blue: #3D7BC4;        /* 标题强调/链接蓝 */
+  --accent: #5C9CE6;      /* 点缀蓝(圆点/图标) */
+  --btn-dark: #1A2433;    /* 主按钮 */
+
+  /* 卡面 */
+  --card-main: rgba(255, 255, 255, 0.94);
+  --card-soft: #F4F9FE;   /* 统计卡/信息卡/项目条目 */
+  --card-cta: #EAF3FC;    /* CTA 卡/徽章/chip */
+  --ghost-bg: #EBF2FD;    /* 幽灵按钮 */
+  --stroke: #C9DEF2;
+  --divider: #E3EDF6;
+
+  /* 字体 */
+  --font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  /* 圆角 */
+  --r-card: 24px;
+  --r-sub: 20px;
+  --r-item: 16px;
+  --r-thumb: 12px;
+  --r-pill: 999px;
+
+  /* 间距(画布 MainCard: padding 56/64, section gap 64) */
+  --sec-gap: 64px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--ink-2);
+  background: linear-gradient(135deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bot) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============ 布局骨架:1440 画布 / 1200 主卡 居中(左右 120)============ */
+.page { max-width: 1440px; margin: 0 auto; padding: 90px 120px; }
+@media (max-width: 1320px) { .page { padding: 48px 24px; } }
+
+.main-card {
+  background: var(--card-main);
+  border-radius: var(--r-card);
+  padding: 56px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sec-gap);
+  box-shadow: 0 12px 48px rgba(92, 156, 230, 0.15);
+}
+
+/* ============ 导航(设计稿:logo + 3 链接 + 黑色胶囊)============ */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 48px;
+}
+.logo { display: flex; align-items: baseline; gap: 12px; }
+.logo-cn { font-size: 20px; font-weight: 600; color: var(--ink); }
+.logo-en { font-size: 11px; letter-spacing: 2px; color: var(--muted); }
+.nav-right { display: flex; align-items: center; gap: 36px; }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--ink-2);
+  text-decoration: none; transition: color .3s ease-out;
+}
+.nav-links a:hover { color: var(--blue); }
+
+.btn-dark {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--btn-dark); color: #fff;
+  font-size: 13px; font-weight: 500; font-family: var(--font);
+  padding: 10px 22px; border-radius: var(--r-pill);
+  text-decoration: none; border: none; cursor: pointer;
+  transition: transform .3s ease-out, box-shadow .3s ease-out;
+}
+.btn-dark .arrow { transition: transform .3s ease-out; }
+.btn-dark:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,36,51,.25); }
+.btn-dark:hover .arrow { transform: translateX(4px); }
+
+/* ============ Hero:左列(fill) + 右肖像(380×460 r20)============ */
+.hero { display: flex; gap: 64px; align-items: center; }
+.hero-left { flex: 1; display: flex; flex-direction: column; gap: 28px; }
+
+.tag-row { display: flex; align-items: center; gap: 10px; }
+.tag-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.tag-text { font-size: 15px; font-weight: 500; color: var(--ink-2); }
+
+.hero-title { font-size: 56px; font-weight: 700; line-height: 1.25; color: var(--ink); letter-spacing: .01em; }
+.hero-title .accent-line { color: var(--blue); }
+
+.hero-desc { font-size: 16px; line-height: 1.8; color: var(--ink-2); max-width: 640px; }
+
+.btn-row { display: flex; gap: 16px; align-items: center; }
+.btn-lg { padding: 14px 28px; font-size: 14px; }
+.btn-ghost {
+  display: inline-flex; align-items: center;
+  background: var(--ghost-bg); color: var(--blue);
+  font-size: 14px; font-weight: 500; font-family: var(--font);
+  padding: 14px 28px; border-radius: var(--r-pill);
+  border: 1px solid var(--stroke); cursor: pointer; text-decoration: none;
+  transition: transform .3s ease-out, background .3s ease-out;
+}
+.btn-ghost:hover { transform: translateY(-2px); background: #fff; }
+
+.portrait {
+  width: 380px; aspect-ratio: 1179 / 1895; flex-shrink: 0; /* 原照片比例,完整显示不裁切 */
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 12px 32px rgba(92, 156, 230, 0.18);
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ============ 统计行:4 卡 gap20,卡 r16 padding24,数字 30 Bold ============ */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.stat-card {
+  background: var(--card-soft); border-radius: var(--r-item);
+  padding: 24px; display: flex; flex-direction: column; gap: 8px;
+  transition: transform .3s ease-out, box-shadow .3s ease-out;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(92,156,230,.14); }
+.stat-num { font-size: 30px; font-weight: 700; color: var(--ink); }
+.stat-label { font-size: 13px; color: var(--muted); }
+
+/* ============ 三栏:关于我(fill) + CTA(320) + 精选项目(400),gap32 ============ */
+.three-col { display: grid; grid-template-columns: 1fr 320px 400px; gap: 32px; align-items: start; }
+
+.about-col { display: flex; flex-direction: column; gap: 16px; }
+.h2 { font-size: 24px; font-weight: 600; color: var(--ink); }
+.about-col p { font-size: 14px; line-height: 1.9; color: var(--ink-2); }
+
+.cta-card {
+  background: var(--card-cta); border-radius: var(--r-sub);
+  padding: 28px; display: flex; flex-direction: column; gap: 14px;
+}
+.cta-icon {
+  width: 44px; height: 44px; border-radius: var(--r-thumb);
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700;
+}
+.cta-title { font-size: 18px; font-weight: 600; color: var(--ink); }
+.cta-desc { font-size: 14px; line-height: 1.7; color: var(--ink-2); }
+
+.proj-col { display: flex; flex-direction: column; gap: 16px; }
+.proj-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card-soft); border-radius: var(--r-item);
+  padding: 12px 14px 12px 12px;
+  text-decoration: none;
+  transition: transform .3s ease-out, box-shadow .3s ease-out;
+}
+.proj-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(92,156,230,.14); }
+.proj-thumb { width: 64px; height: 64px; border-radius: var(--r-thumb); overflow: hidden; flex-shrink: 0; }
+.proj-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease-out; }
+.proj-item:hover .proj-thumb img { transform: scale(1.05); }
+.proj-text { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.proj-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.proj-meta { font-size: 12px; color: var(--muted); }
+.proj-arrow { font-size: 14px; color: var(--muted); transition: transform .3s ease-out, color .3s ease-out; }
+.proj-item:hover .proj-arrow { transform: translateX(4px); color: var(--blue); }
+
+/* ============ 简历区 ============ */
+.resume { display: flex; flex-direction: column; gap: 32px; }
+.resume-head { display: flex; justify-content: space-between; align-items: center; }
+.resume-title { font-size: 28px; font-weight: 600; color: var(--ink); }
+.badge {
+  display: inline-flex; padding: 8px 18px; border-radius: var(--r-pill);
+  background: var(--card-cta); color: var(--blue);
+  font-size: 13px; font-weight: 500;
+}
+
+.resume-grid { display: grid; grid-template-columns: 360px 1fr; gap: 32px; align-items: start; }
+.resume-left { display: flex; flex-direction: column; gap: 24px; }
+
+.info-card {
+  background: var(--card-soft); border-radius: var(--r-sub);
+  padding: 28px; display: flex; flex-direction: column; gap: 18px;
+}
+.card-title { font-size: 16px; font-weight: 600; color: var(--ink); }
+.info-row { display: flex; justify-content: space-between; align-items: center; }
+.info-label { font-size: 13px; color: var(--muted); }
+.info-value { font-size: 14px; font-weight: 500; color: var(--ink); }
+.info-block { display: flex; flex-direction: column; gap: 8px; }
+.info-block .info-value { font-size: 13px; }
+.info-block .highlight { color: var(--blue); }
+
+.edu-card {
+  background: var(--card-soft); border-radius: var(--r-sub);
+  padding: 28px; display: flex; flex-direction: column; gap: 16px;
+}
+.edu-school { font-size: 16px; font-weight: 600; color: var(--ink); }
+.edu-meta { font-size: 12px; font-weight: 500; color: var(--blue); }
+.edu-card li { font-size: 13px; line-height: 1.8; color: var(--ink-2); list-style: none; }
+
+.resume-right { display: flex; flex-direction: column; gap: 32px; }
+.exp-entry { display: flex; flex-direction: column; gap: 12px; }
+.exp-head { display: flex; justify-content: space-between; align-items: baseline; }
+.exp-title { font-size: 16px; font-weight: 600; color: var(--ink); }
+.exp-time { font-size: 12px; font-weight: 500; color: var(--blue); flex-shrink: 0; margin-left: 16px; }
+.exp-entry li { font-size: 13px; line-height: 1.8; color: var(--ink-2); list-style: none; }
+.exp-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--blue); font-size: 13px; font-weight: 500; text-decoration: none;
+  border-bottom: 1px solid rgba(61, 123, 196, 0.3);
+  transition: border-color .2s ease-out;
+}
+.exp-link:hover { border-color: var(--blue); }
+.exp-links { display: flex; flex-wrap: wrap; gap: 18px; }
+
+/* 游戏经历区 */
+.game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.game-card {
+  background: var(--card-soft); border-radius: var(--r-sub);
+  padding: 28px; display: flex; flex-direction: column; gap: 14px;
+}
+.game-card li { font-size: 13px; line-height: 1.8; color: var(--ink-2); list-style: none; }
+
+/* ============ 技能 chips ============ */
+.skills { display: flex; flex-direction: column; gap: 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip {
+  display: inline-flex; padding: 10px 20px; border-radius: var(--r-pill);
+  background: var(--card-cta); color: var(--blue);
+  font-size: 13px; font-weight: 500;
+  transition: transform .3s ease-out, background .3s ease-out;
+}
+.chip:hover { transform: translateY(-2px); background: #DEEDFB; }
+
+/* ============ 页脚 ============ */
+.divider { height: 1px; background: var(--divider); }
+.footer { display: flex; justify-content: space-between; align-items: center; }
+.footer span { font-size: 13px; color: var(--muted); }
+
+/* ============ 滚动渐入动效(IntersectionObserver + stagger)============ */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease-out, transform .6s ease-out; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============ 响应式 ============ */
+@media (max-width: 1160px) {
+  .hero { flex-direction: column-reverse; text-align: left; }
+  .portrait { width: 100%; max-width: 460px; }
+  .three-col { grid-template-columns: 1fr 1fr; }
+  .about-col { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .page { padding: 24px 12px; }
+  .main-card { padding: 32px 24px; gap: 48px; }
+  .nav-links { display: none; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .resume-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 40px; }
+}
+@media (max-width: 620px) {
+  .three-col { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+  .game-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 32px; }
+  .btn-row { flex-wrap: wrap; }
+  .footer { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <main class="main-card">
+
+    <!-- 导航 -->
+    <nav class="nav reveal">
+      <div class="logo">
+        <span class="logo-cn">张嘉阳</span>
+        <span class="logo-en">ZHANG JIAYANG</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#projects">项目作品</a>
+          <a href="#resume">简历</a>
+          <a href="#experience">游戏经历</a>
+        </div>
+        <a class="btn-dark" href="mailto:m489299196@126.com">联系我 <span class="arrow">→</span></a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left reveal">
+        <div class="tag-row">
+          <span class="tag-dot"></span>
+          <span class="tag-text">游戏日语本地化 · 游戏文案策划 · TRPG 规则设计</span>
+        </div>
+        <h1 class="hero-title">以百万字创作力<br><span class="accent-line">为游戏世界注入灵魂</span></h1>
+        <p class="hero-desc">六年日本留学沉淀母语级日语语感,140 万字安科连载与 106 万字签约网文锤炼长篇叙事,Fate 主题 TRPG 规则书核心设计成员——懂玩家、懂文本、懂系统。</p>
+        <div class="btn-row">
+          <a class="btn-dark btn-lg" href="mailto:m489299196@126.com">联系我 <span class="arrow">→</span></a>
+          <a class="btn-ghost" href="#projects">查看作品</a>
+        </div>
+      </div>
+      <div class="portrait reveal">
+        <img src="assets/portrait-original.jpg" alt="张嘉阳个人照片">
+      </div>
+    </section>
+
+    <!-- 统计行 -->
+    <section class="stats">
+      <div class="stat-card reveal"><div class="stat-num">140万+</div><div class="stat-label">安科同人连载字数</div></div>
+      <div class="stat-card reveal"><div class="stat-num">106万字</div><div class="stat-label">刺猬猫签约网文累计</div></div>
+      <div class="stat-card reveal"><div class="stat-num">6万字</div><div class="stat-label">TRPG 规则书设计文档</div></div>
+      <div class="stat-card reveal"><div class="stat-num">700+</div><div class="stat-label">玩家社群长期运营</div></div>
+    </section>
+
+    <!-- 三栏:关于我 + CTA + 精选项目 -->
+    <section class="three-col" id="projects">
+      <div class="about-col reveal">
+        <h2 class="h2">关于我</h2>
+        <p>我是张嘉阳,25 岁,现居北京。六年日本留学让日语成为我的「第二母语」,也让日系 ACGN 文化融入日常——从《群星》1500 小时的 4X 战略深度,到日服《影之诗》《赛马娘》的本地化细节,我始终用玩家视角审视每一句文本。</p>
+        <p>写作是我最长情的坚持:高中签约刺猬猫连载 106 万字,如今在 NGA 维持 140 万字安科更新,同时作为核心成员设计 Fate 主题 TRPG 规则书。长篇节奏、分支叙事、数值框架,都是我反复实战过的手艺。</p>
+      </div>
+
+      <div class="cta-card reveal">
+        <div class="cta-icon">!</div>
+        <div class="cta-title">有一个项目想法?</div>
+        <p class="cta-desc">让我用文字为你的游戏注入灵魂。</p>
+        <a class="btn-dark" href="mailto:m489299196@126.com">联系我 <span class="arrow">→</span></a>
+      </div>
+
+      <div class="proj-col reveal">
+        <h2 class="h2">精选项目</h2>
+        <a class="proj-item" href="#resume">
+          <div class="proj-thumb"><img src="assets/proj-ffr.png" alt="FFR 规则书"></div>
+          <div class="proj-text">
+            <div class="proj-name">《Fate/Frenzied Rite》规则书</div>
+            <div class="proj-meta">核心设计成员 · 6万字 · v1.6</div>
+          </div>
+          <span class="proj-arrow">→</span>
+        </a>
+        <a class="proj-item" href="#resume">
+          <div class="proj-thumb"><img src="assets/proj-nanobot.png" alt="NGA 安科"></div>
+          <div class="proj-text">
+            <div class="proj-name">某纳米机器人这回真的到战锤宇宙了</div>
+            <div class="proj-meta">NGA 安科同人 · 140万字连载中</div>
+          </div>
+          <span class="proj-arrow">→</span>
+        </a>
+        <a class="proj-item" href="#resume">
+          <div class="proj-thumb"><img src="assets/proj-eternal.png" alt="永恒之地的临时工"></div>
+          <div class="proj-text">
+            <div class="proj-name">《永恒之地的临时工》</div>
+            <div class="proj-meta">刺猬猫签约网文 · 106万字完结</div>
+          </div>
+          <span class="proj-arrow">→</span>
+        </a>
+        <a class="proj-item" href="#resume">
+          <div class="proj-thumb"><img src="assets/proj-voice.png" alt="音声翻译"></div>
+          <div class="proj-text">
+            <div class="proj-name">日语音声作品翻译</div>
+            <div class="proj-meta">台词字幕汉化 · 多部作品</div>
+          </div>
+          <span class="proj-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 简历 -->
+    <section class="resume" id="resume">
+      <div class="resume-head reveal">
+        <h2 class="resume-title">个人简历</h2>
+        <span class="badge">可立即入职 · 现居北京</span>
+      </div>
+
+      <div class="resume-grid">
+        <div class="resume-left">
+          <div class="info-card reveal">
+            <h3 class="card-title">基本信息</h3>
+            <div class="info-row"><span class="info-label">姓名</span><span class="info-value">张嘉阳</span></div>
+            <div class="info-row"><span class="info-label">年龄 · 城市</span><span class="info-value">25 岁 · 北京</span></div>
+            <div class="info-row"><span class="info-label">电话</span><span class="info-value">18310336701</span></div>
+            <div class="info-row"><span class="info-label">邮箱</span><span class="info-value">m489299196@126.com</span></div>
+            <div class="info-block">
+              <span class="info-label">求职意向</span>
+              <span class="info-value highlight">游戏日语本地化 · 游戏文案策划</span>
+            </div>
+            <div class="info-block">
+              <span class="info-label">语言能力</span>
+              <span class="info-value">日语 N1(母语级)· 英语流利 · 中文母语</span>
+            </div>
+          </div>
+
+          <div class="edu-card reveal">
+            <h3 class="card-title">教育背景</h3>
+            <div class="edu-school">大东文化大学</div>
+            <div class="edu-meta">日语专业 · 本科 | 2021.04 - 2025.03</div>
+            <ul>
+              <li>· 主修日本语学研究课程,系统掌握日语语法与翻译润色</li>
+              <li>· 毕业论文聚焦动漫种族语言特征,总结角色人设与语言设计的关联规律,可复用于游戏角色台词创作</li>
+              <li>· 六年日本沉浸式留学,深度融入日系 ACGN 文化与游戏圈层</li>
+            </ul>
+            <div class="edu-school" style="margin-top:8px;">北大附中(国际部)</div>
+            <div class="edu-meta">高中国际部 | 2016.08 - 2019.08</div>
+            <ul>
+              <li>· 三年全英语授课环境,熟练掌握英文文本阅读与口语沟通</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="resume-right">
+          <div class="exp-entry reveal">
+            <div class="exp-head">
+              <span class="exp-title">NGA 安科同人创作 · 独立作者</span>
+              <span class="exp-time">2023.12 - 至今</span>
+            </div>
+            <ul>
+              <li>· 战锤 40K × 群星双 IP 安科《某纳米机器人这回真的到战锤宇宙了》累计 140 万字,连载于 NGA 殿堂之路</li>
+              <li>· 帖子回复 5300+ 楼,运营 60 人核心读者群,安价投票稳定 30+ 人参与,形成高粘性读者社区</li>
+              <li>· 原创全部主要角色与主线剧情,以安科交互式叙事根据读者投票动态推进剧情分支,隔日更新持续 1 年 7 个月</li>
+            </ul>
+            <a class="exp-link" href="https://ngabbs.com/read.php?tid=38797648" target="_blank" rel="noopener">作品链接:NGA 帖子 ↗</a>
+          </div>
+
+          <div class="exp-entry reveal">
+            <div class="exp-head">
+              <span class="exp-title">《Fate/Frenzied Rite》TRPG 规则书 · 核心设计成员</span>
+              <span class="exp-time">2019 - 至今</span>
+            </div>
+            <ul>
+              <li>· 9 人核心团队开发 Fate 主题 TRPG 规则书,负责规则设计与数值平衡,历经 6 个版本迭代(含 1 次核心系统重做)</li>
+              <li>· 主规则书 + 技能参考文档累计约 6 万字,设计 30+ 种保有技能模板、血统技能与宝具系统,建立弹性角色构建模式</li>
+              <li>· 担任 KP 主持 5 场完整跑团,规则推广群 700+ 人运营 7 年,玩家自发组织跑团上百场</li>
+              <li>· 当前 v1.6 版本已基本完善,形成稳定的玩家社区与规则生态</li>
+            </ul>
+            <div class="exp-links">
+              <a class="exp-link" href="assets/ffr-rulebook-v16.pdf" target="_blank" rel="noopener">规则书 v1.6(PDF)↗</a>
+              <a class="exp-link" href="assets/ffr-skill-ref-v16.pdf" target="_blank" rel="noopener">英灵技能参考 v1.6(PDF)↗</a>
+            </div>
+          </div>
+
+          <div class="exp-entry reveal">
+            <div class="exp-head">
+              <span class="exp-title">刺猬猫签约网文创作 · 独立作者</span>
+              <span class="exp-time">高中时期</span>
+            </div>
+            <ul>
+              <li>· 独立创作综漫/无限流长篇小说《永恒之地的临时工》,累计 106 万字,总点击 67 万+,收藏 1200+</li>
+              <li>· 连载期间保持日更节奏,完整经历从世界观搭建、人物塑造到长篇连载的全流程</li>
+            </ul>
+            <a class="exp-link" href="https://www.ciweimao.com/book/100029919" target="_blank" rel="noopener">作品链接:刺猬猫书页 ↗</a>
+          </div>
+
+          <div class="exp-entry reveal">
+            <div class="exp-head">
+              <span class="exp-title">游戏/内容社群运营 · 群主/管理员</span>
+              <span class="exp-time">2017 - 至今</span>
+            </div>
+            <ul>
+              <li>· 运营个人读者粉丝群(73 人)与 FFR 规则书推广群(698 人)两个 QQ 社群,分别运营 8 年与 6 年,具备完整的社群搭建与长期维护经验</li>
+              <li>· 个人粉丝群围绕原创小说与安科作品开展剧情讨论、角色设定交流与安价投票征集,沉淀高粘性核心读者群体,部分用户从高中时期持续追更至今</li>
+              <li>· FFR 规则书推广群担任核心管理员，负责入群审核、公告发布、规则答疑与社区氛围维护，群内日均高活跃，形成稳定的 TRPG 玩家社区生态，并收集玩家意见反哺内容与规则迭代</li>
+            </ul>
+          </div>
+
+          <div class="exp-entry reveal">
+            <div class="exp-head">
+              <span class="exp-title">日语音声作品翻译 · 字幕汉化</span>
+              <span class="exp-time">兼职</span>
+            </div>
+            <ul>
+              <li>· 参与日语音声/ASMR 作品翻译,负责日语台词字幕汉化,掌握字幕制作流程工序</li>
+            </ul>
+            <div class="exp-links">
+              <a class="exp-link" href="https://www.bilibili.com/video/BV12s4y1u7Ys/" target="_blank" rel="noopener">《病娇老板的所有物》视频↗</a>
+              <a class="exp-link" href="https://www.bilibili.com/video/BV1zP411e7sB/" target="_blank" rel="noopener">《年上的帅气妻子》视频↗</a>
+              <a class="exp-link" href="assets/translation-boss.pdf" target="_blank" rel="noopener">《病娇老板的所有物》翻译文本↗</a>
+              <a class="exp-link" href="assets/translation-wife.pdf" target="_blank" rel="noopener">《年上的帅气妻子》翻译文本↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 游戏经历 -->
+    <section class="resume" id="experience">
+      <div class="resume-head reveal">
+        <h2 class="resume-title">游戏经历</h2>
+        <span class="badge">玩家视角的文案底气</span>
+      </div>
+
+      <div class="game-grid">
+        <div class="game-card reveal">
+          <h3 class="card-title">PC / Steam 游戏</h3>
+          <ul>
+            <li>· Steam 库拥有 240 款游戏,主要时长集中在 4X 战略、TRPG 与 AVG 类</li>
+            <li>· 《群星 Stellaris》1500 小时、《全面战争:战锤 3》500 小时、《开拓者:正义之怒》300 小时、《太吾绘卷》200 小时、《博德之门 3》100 小时</li>
+            <li>· 小型独立游戏:《土豆兄弟》100 小时、《魔法工艺》60 小时;卡牌:《杀戮尖塔》60 小时、《怪物火车》80 小时</li>
+            <li>· 大型 3A:《赛博朋克 2077》90 小时、《刺客信条:奥德赛》70 小时、《黑神话:悟空》40 小时</li>
+          </ul>
+        </div>
+
+        <div class="game-card reveal">
+          <h3 class="card-title">二次元手游</h3>
+          <ul>
+            <li>· 国产日式二次元手游:《明日方舟:终末地》《异环》《雷索纳斯》等,总时长 500 小时+</li>
+            <li>· 日本本土二次元手游:《影之诗》《赛马娘》《公主连结》《碧蓝档案》等,总时长 1000 小时+</li>
+          </ul>
+        </div>
+
+        <div class="game-card reveal">
+          <h3 class="card-title">日文 AVG / GAL</h3>
+          <ul>
+            <li>· 《千恋万花》《Riddle Joker》《NUKITASHI》《魔法少女的魔女审判》等</li>
+          </ul>
+        </div>
+
+        <div class="game-card reveal">
+          <h3 class="card-title">电竞比赛经历</h3>
+          <ul>
+            <li>· 英雄联盟:多个赛季持有日服大师段位</li>
+            <li>· 2024 年在日期间代表大学参加 LAC AWA CUP 日本全国留学生明治特别邀请赛,瑞士轮晋级八强,最终斩获季军(选手 ID:WindowX);四强队伍均含王者段位选手,冠军队伍领队为日服天梯第一</li>
+            <li>· 赛事由主办方配备专业解说,比赛录播上传 B 站,具备相对正式的赛事组织与体验 <a class="exp-link" href="https://www.bilibili.com/video/BV1xph3e1Ekh/" target="_blank" rel="noopener">B 站录播 ↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 技能 -->
+    <section class="skills">
+      <h2 class="h2 reveal">技能特长</h2>
+      <div class="chips reveal">
+        <span class="chip">日语 N1 · 母语级</span>
+        <span class="chip">英文流利</span>
+        <span class="chip">世界观与角色设计</span>
+        <span class="chip">交互式分支叙事</span>
+        <span class="chip">TRPG 规则体系搭建</span>
+        <span class="chip">数值平衡调优</span>
+        <span class="chip">字幕制作流程</span>
+        <span class="chip">Office 办公套件</span>
+        <span class="chip">ChatGPT · WorkBuddy 等 AI 工具</span>
+      </div>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <!-- 页脚 -->
+    <footer class="footer reveal">
+      <span>2026 张嘉阳 · 用文字连接世界</span>
+      <span>m489299196@126.com</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// 滚动渐入:IntersectionObserver + stagger 延迟
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      // 同一批可见元素做 80ms 阶梯延迟,还原设计稿节奏感
+      entry.target.style.transitionDelay = (i * 80) + 'ms';
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
